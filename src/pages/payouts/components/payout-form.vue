@@ -16,32 +16,14 @@ export default {
   },
   data () {
     return {
-      rules: {
-        periodBefore: () => {
-          if (!this.form.startPeriod || !this.form.endPeriod) {
-            return true
-          }
-          return new Date(this.form.startPeriod.startDate).getTime() < new Date(this.form.endPeriod.startDate).getTime() || 'The start period must be before the end period'
-        }
-      },
       form: {
         id: uid(),
         title: null,
         description: defaultDesc,
         recipient: null,
         url: null,
-        amount: 0,
-        deferred: 0,
-        startPeriod: null,
-        endPeriod: null,
-        cycles: null
-      },
-      display: {
-        deferredSeeds: 0,
-        liquidSeeds: 0,
         votepow: 0,
-        hypha: 0,
-        husd: 0
+        reward: 0
       },
       isFullScreen: false,
       submitting: false
@@ -50,8 +32,7 @@ export default {
   computed: {
     ...mapGetters('periods', ['periodOptionsStartContribution']),
     ...mapGetters('accounts', ['account']),
-    ...mapGetters('profiles', ['isConnected']),
-    ...mapGetters('payouts', ['seedsToUsd'])
+    ...mapGetters('profiles', ['isConnected'])
   },
   mounted () {
     this.form.recipient = this.account
@@ -84,70 +65,17 @@ export default {
         description: defaultDesc,
         recipient: null,
         url: null,
-        amount: 0,
-        deferred: 0,
-        instant: 0,
-        startPeriod: null,
-        endPeriod: null,
-        cycles: null
+        votepow: 0,
+        reward: 0
       }
       await this.resetValidation(this.form)
     },
     hideForm () {
       this.setShowRightSidebar(false)
       this.setRightSidebarType(null)
-    },
-    computeTokens (amount, deferred, instant) {
-      const deferredSan = isNaN(deferred) ? 0 : parseFloat(deferred || 0)
-      const instantSan = isNaN(instant) ? 0 : parseFloat(instant || 0)
-      const ratioUsdEquity = parseFloat(amount || 0)
-      this.display.votepow = (2 * ratioUsdEquity).toFixed(2)
-      this.display.deferredSeeds = (ratioUsdEquity / this.seedsToUsd * (deferredSan / 100) * 1.3).toFixed(4)
-      this.display.hypha = (ratioUsdEquity * deferredSan / 100 * 0.6).toFixed(2)
-      this.display.husd = (ratioUsdEquity * (1 - deferredSan / 100) * (instantSan / 100)).toFixed(2)
-      this.display.liquidSeeds = (ratioUsdEquity * (1 - deferredSan / 100) * (1 - instantSan / 100) / this.seedsToUsd).toFixed(2)
     }
   },
   watch: {
-    'form.amount': {
-      immediate: true,
-      handler (val) {
-        this.computeTokens(val, this.form.deferred, this.form.instant)
-      }
-    },
-    'form.deferred': {
-      immediate: true,
-      handler (val) {
-        if (parseFloat(val) === 100) {
-          this.form.instant = '0'
-        }
-        this.computeTokens(this.form.amount, val, this.form.instant)
-      }
-    },
-    'form.instant': {
-      immediate: true,
-      handler (val) {
-        this.computeTokens(this.form.amount, this.form.deferred, val)
-      }
-    },
-    'form.startPeriod': {
-      immediate: true,
-      deep: true,
-      handler (val) {
-        if (this.form.endPeriod && val) {
-          this.form.cycles = (this.form.endPeriod.value - val.value) / 4
-        }
-      }
-    },
-    'form.endPeriod': {
-      immediate: true,
-      deep: true,
-      handler (val) {
-        if (val && this.form.startPeriod) {
-          this.form.cycles = (val.value - this.form.startPeriod.value) / 4
-        }
-      }
-    },
     draft: {
       immediate: true,
       handler (val) {
@@ -202,152 +130,34 @@ export default {
         )
   fieldset.q-mt-sm
     legend Payout
-    p Please enter your USD equivalent and % deferral for this contribution. The more you defer to a later date, the higher the bonus will be.
+    p Please enter your vote power and reward for this contribution.
     .row.q-col-gutter-xs
-      .col-xs-12.col-md-4
+      .col-xs-12.col-md-6
         q-input(
-          ref="amount"
-          v-model="form.amount"
+          ref="votepow"
+          v-model="form.votepow"
           type="number"
           color="accent"
-          label="USD"
+          label="VOTEPOW"
           :rules="[rules.required, rules.positiveAmount]"
           lazy-rules
           outlined
           dense
-          @blur="form.amount = parseFloat(form.amount).toFixed(0)"
+          @blur="form.votepow = parseFloat(form.votepow).toFixed(0)"
         )
-          template(v-slot:append)
-            q-icon(
-              name="fas fa-dollar-sign"
-              size="xs"
-            )
-      .col-xs-12.col-md-4
+      .col-xs-12.col-md-6
         q-input(
-          ref="deferred"
-          v-model="form.deferred"
+          ref="reward"
+          v-model="form.reward"
           type="number"
           color="accent"
-          label="Deferred"
-          :rules="[rules.required, rules.positiveAmount, rules.lessOrEqualThan(100)]"
-          lazy-rules
-          outlined
-          dense
-          @blur="form.deferred = parseFloat(form.deferred).toFixed(0)"
-        )
-          template(v-slot:append)
-            q-icon(
-              name="fas fa-percentage"
-              size="xs"
-            )
-      .col-xs-12.col-md-4
-        q-input(
-          ref="instant"
-          v-model="form.instant"
-          :disable="parseFloat(form.deferred) === 100"
-          type="number"
-          color="accent"
-          label="HUSD"
-          :rules="[rules.required, rules.positiveAmount, rules.lessOrEqualThan(100)]"
-          lazy-rules
-          outlined
-          dense
-          @blur="form.instant = parseFloat(form.instant).toFixed(0)"
-        )
-          template(v-slot:append)
-            q-icon(
-              name="fas fa-percentage"
-              size="xs"
-            )
-    .row.q-col-gutter-xs
-      .col-6
-        q-input.bg-seeds.text-black(
-          v-model="display.deferredSeeds"
-          outlined
-          dense
-          readonly
-        )
-          template(v-slot:append)
-            q-icon(
-              name="img:statics/app/icons/seeds.png"
-              size="xs"
-            )
-        .hint Deferred Seeds
-      .col-6
-        q-input.bg-seeds.text-black(
-          v-model="display.liquidSeeds"
-          outlined
-          dense
-          readonly
-        )
-          template(v-slot:append)
-            q-icon(
-              name="img:statics/app/icons/seeds.png"
-              size="xs"
-            )
-        .hint Liquid Seeds
-      .col-4
-        q-input.bg-liquid.text-black(
-          v-model="display.votepow"
-          outlined
-          dense
-          readonly
-        )
-        .hint votepow
-      .col-4
-        q-input.bg-liquid.text-black(
-          v-model="display.hypha"
-          outlined
-          dense
-          readonly
-        )
-        .hint hypha
-      .col-4
-        q-input.bg-liquid.text-black(
-          v-model="display.husd"
-          outlined
-          dense
-          readonly
-        )
-        .hint husd
-  fieldset.q-mt-sm
-    legend Lunar cycles
-    p Please select your lunar start and end date or lunar start date and number of lunar cycles.
-    .row.q-col-gutter-sm
-      .col-xs-12.col-md-4
-        period-select(
-          ref="startPeriod"
-          :value.sync="form.startPeriod"
-          :period="form.startPeriod && form.startPeriod.value"
-          :periods="periodOptionsStartContribution.slice(0, 12 * 4)"
-          label="Start phase"
-          required
-        )
-      .col-xs-12.col-md-4
-        period-select(
-          ref="endPeriod"
-          :value.sync="form.endPeriod"
-          :period="form.startPeriod && (form.cycles || 0) && ((parseInt(form.startPeriod.value) + Math.min(parseInt(form.cycles || 0), 12) * 4) || 0)"
-          :periods="form.startPeriod && periodOptionsStartContribution.filter(p => p.phase === form.startPeriod.phase && p.value > form.startPeriod.value).slice(0, 12)"
-          label="End phase"
-          required
-        )
-      .col-xs-12.col-md-4
-        q-input(
-          ref="cycles"
-          v-model="form.cycles"
-          label="Cycles"
-          type="number"
+          label="Reward"
           :rules="[rules.required, rules.positiveAmount]"
           lazy-rules
           outlined
           dense
+          @blur="form.reward = parseFloat(form.reward).toFixed(0)"
         )
-          template(v-slot:append)
-            q-icon(
-              name="fas fa-hashtag"
-              size="xs"
-            )
   .text-center.q-mt-sm
     q-btn.q-mr-sm(
       label="Cancel"

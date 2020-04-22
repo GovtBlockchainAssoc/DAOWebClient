@@ -60,10 +60,6 @@ export default {
         return new Date(obj.value)
       }
       return new Date()
-    },
-    cycle () {
-      if (!this.endPhase) return ''
-      return (this.endPhase.period_id - this.startPhase.period_id) / 4
     }
   },
   methods: {
