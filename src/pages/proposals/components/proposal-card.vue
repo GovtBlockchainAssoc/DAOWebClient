@@ -37,6 +37,14 @@ export default {
       }
       return type
     },
+    typeIcon () {
+      if (this.type === 'contribution') {
+        return 'fas fa-money-bill'
+      } else if (this.type === 'assignment') {
+        return 'far fa-id-badge'
+      }
+      return 'far fa-clipboard'
+    },
     owner () {
       const data = this.proposal.names.find(o => o.key === 'owner')
       return (data && data.value) || ''
@@ -157,47 +165,43 @@ export default {
 <template lang="pug">
 q-card.proposal
   .ribbon(v-if="!readonly")
-    span.text-white.bg-hire(v-if="type === 'assignment'") APPLYING
-    span.text-white.bg-proposal(v-else) PROPOSING
-  .url(v-if="url && url !== 'null'")
+    span.text-white.bg-hire(:class="`bg-${type}`") {{ type === 'assignment' ? 'APPLYING' : 'PROPOSING'}}
+  .url(v-if="true || (url && url !== 'null')")
     q-btn(
       icon="fas fa-bookmark"
       @click="openUrl"
       flat
-      color="proposal"
+      :color="type"
       unelevated
       dense
     )
+  .type
+    span {{ type }}
+    q-icon(:name="typeIcon" size="xs")
   q-img.owner-avatar(
     v-if="profile && profile.publicData.avatar"
     :src="profile.publicData.avatar"
     @click="$router.push({ path: `/@${owner}`})"
   )
-    q-tooltip {{ (profile.publicData && profile.publicData.name) || owner }}
   q-avatar.owner-avatar(
     v-else
-    size="40px"
-    color="accent"
+    size="90px"
+    color="teal"
     text-color="white"
     @click="$router.push({ path: `/@${owner}`})"
   )
     | {{ owner.slice(0, 2).toUpperCase() }}
-    q-tooltip {{ (profile && profile.publicData && profile.publicData.name) || owner }}
-  q-card-section.text-center.q-pb-sm.cursor-pointer(@click="showCardFullContent")
-    img.icon(v-if="type === 'role'" src="~assets/icons/roles.svg")
-    img.icon(v-if="type === 'assignment'" src="~assets/icons/assignments.svg")
-    img.icon(v-if="type === 'contribution'" src="~assets/icons/past.svg")
+  .username {{ (profile && profile.publicData && profile.publicData.name) || owner }}
   q-card-section
-    .type(@click="showCardFullContent") {{ type }}
-    .title(@click="details = !details") {{ title }}
-  q-card-section.description(v-show="details")
-    p {{ description | truncate(150) }}
+    .title {{ title }}
+  q-card-section.description
+    p {{ description | truncate(110) }}
   q-card-section.vote-section
     q-linear-progress.vote-bar.vote-bar-endorsed(
       rounded
       size="25px"
       :value="percentage / 100"
-      color="light-green-6"
+      :color="type"
       track-color="red"
     )
       .absolute-full.flex.flex-center
@@ -207,7 +211,7 @@ q-card.proposal
       stripe
       size="25px"
       :value="quorum / 100"
-      :color="quorum < 20 ? 'red' : 'light-green-6'"
+      :color="quorum < 20 ? 'red' : 'teal-4'"
       track-color="grey-8"
     )
       .absolute-full.flex.flex-center
@@ -217,7 +221,7 @@ q-card.proposal
       v-if="votesOpened"
       :icon="userVote === 'pass' ? 'fas fa-check-square' : null"
       :label="type === 'assignment' ? 'Enroll' : 'Endorse'"
-      color="light-green-6"
+      color="indigo-6"
       :loading="voting"
       @click="onCastVote('pass')"
       rounded
@@ -260,40 +264,40 @@ q-card.proposal
 <style lang="stylus" scoped>
 .proposal
   width 300px
-  border-radius 1rem
+  border-radius 3px
   margin 10px
-.proposal:hover
-  transition transform 0.3s cubic-bezier(0.005, 1.65, 0.325, 1) !important
-  transform scale(1.2) translate(0px, 40px) !important
-  -moz-transform scale(1.2) translate(0px, 40px)
-  -webkit-transform scale(1.2) translate(0px, 40px)
-  z-index 100
-  box-shadow 0 4px 8px rgba(0,0,0,0.2), 0 5px 3px rgba(0,0,0,0.14), 0 3px 3px 3px rgba(0,0,0,0.12)
-  .owner-avatar
-    z-index 110
 .owner-avatar
   cursor pointer
-  position absolute
   border-radius 50% !important
-  right 10px
-  top 10px
-  width 40px
+  width 90px
+  margin-top 60px
+.username
+  color #616161
+  margin-top 5px
 .description
   white-space pre-wrap
-  max-height 55px
+  height 100px
   overflow auto
-.type
-  cursor pointer
-  text-transform capitalize
-  text-align center
-  font-weight 800
-  font-size 28px
+  color #616161
 .title
   cursor pointer
   text-align center
   font-size 20px
-  color $grey-6
+  font-weight 600
+  color #605F60
   line-height 22px
+  height 36px
+.type
+  color #4D4A4A
+  text-transform uppercase
+  position absolute
+  top 5px
+  right 10px
+  font-weight 600
+  font-size 16px
+  i
+    margin-left 10px
+    margin-top -4px
 .icon
   margin-top 20px
   width 100%
@@ -301,7 +305,7 @@ q-card.proposal
 .url
   position absolute
   top -4px
-  right 50px
+  left 70px
   z-index 12
 .proposal-actions
   button

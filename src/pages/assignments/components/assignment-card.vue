@@ -61,7 +61,7 @@ q-card.assignment
   q-avatar.owner-avatar(
     v-else
     size="40px"
-    color="accent"
+    color="teal"
     text-color="white"
     @click="$router.push({ path: `/@${owner}`})"
   )

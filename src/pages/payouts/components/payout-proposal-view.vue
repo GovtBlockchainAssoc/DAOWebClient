@@ -201,7 +201,7 @@ export default {
       rounded
       size="25px"
       :value="percentage / 100"
-      color="light-green-6"
+      color="teal-4"
       track-color="red"
     )
       .absolute-full.flex.flex-center
@@ -211,7 +211,7 @@ export default {
       stripe
       size="25px"
       :value="quorum / 100"
-      :color="quorum < 20 ? 'red' : 'light-green-6'"
+      :color="quorum < 20 ? 'red' : 'teal-4'"
       track-color="grey-8"
     )
       .absolute-full.flex.flex-center
@@ -234,7 +234,7 @@ export default {
         v-if="votesOpened"
         :icon="userVote === 'pass' ? 'fas fa-check-square' : null"
         label="Endorse"
-        color="light-green-6"
+        color="indigo-6"
         rounded
         :loading="voting"
         @click="onCastVote('pass')"
@@ -251,7 +251,7 @@ export default {
       q-btn(
         v-if="canCloseProposal && owner === account && ballot && ballot.status !== 'closed'"
         :label="percentage >= 80 && quorum >= 20 ? 'Claim' : 'Deactivate'"
-        :color="percentage >= 80 && quorum >= 20 ? 'light-green-6' : 'red'"
+        :color="percentage >= 80 && quorum >= 20 ? 'teal-4' : 'red'"
         rounded
         :loading="voting"
         @click="onCloseProposal"

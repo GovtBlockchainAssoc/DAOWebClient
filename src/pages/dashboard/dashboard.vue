@@ -83,7 +83,7 @@ q-page.q-pa-lg
               q-card-section
                 .type Roles
               q-card-actions.q-pa-lg(align="center")
-                q-btn(label="Endorse" color="proposal" rounded dense unelevated @click="$router.push({ path: '/proposals/role' })")
+                q-btn(label="Endorse" color="indigo-6" dense unelevated @click="$router.push({ path: '/proposals/role' })")
           .col-xs-12.col-sm-4
             q-card.item-card
               .item-action
@@ -103,7 +103,7 @@ q-page.q-pa-lg
               q-card-section
                 .type Contributions
               q-card-actions.q-pa-lg(align="center")
-                q-btn(label="Endorse" color="proposal" rounded dense unelevated @click="$router.push({ path: '/proposals/contribution' })")
+                q-btn(label="Endorse" color="indigo-6" dense unelevated @click="$router.push({ path: '/proposals/contribution' })")
       .item(@click="$router.push({ path: '/roles' })" style="display:none;")
         .row.flex.q-col-gutter-xl
           .col-xs-12.col-sm-6.column.flex
@@ -118,7 +118,7 @@ q-page.q-pa-lg
               q-card-section
                 .type Roles
               q-card-actions.q-pa-lg(align="center")
-                q-btn(label="Enroll" color="hire" rounded dense unelevated)
+                q-btn(label="Enroll" color="hire" dense unelevated)
       .item(@click="$router.push({ path: '/roles' })" style="max-width: 450px;")
         .row.flex.q-col-gutter-xl
           .col-xs-12.col-sm-6.column.flex
@@ -133,7 +133,7 @@ q-page.q-pa-lg
               q-card-section
                 .type Roles
               q-card-actions.q-pa-lg(align="center")
-                q-btn(label="Apply" color="hire" rounded dense unelevated)
+                q-btn(label="Apply" color="hire" dense unelevated)
       .item(style="display:none;")
         .row.flex.q-col-gutter-xl
           .col-xs-12.col-sm-6.column.flex
@@ -148,7 +148,7 @@ q-page.q-pa-lg
               q-card-section
                 .type Assignments
               q-card-actions.q-pa-lg(align="center")
-                q-btn(label="Claim" color="assignment" rounded dense unelevated)
+                q-btn(label="Claim" color="assignment" dense unelevated)
 </template>
 
 <style lang="stylus" scoped>
@@ -169,7 +169,7 @@ q-page.q-pa-lg
   max-width 650px
   background rgba(255, 255, 255, 0.4)
   padding 25px
-  border-radius 25px
+  border-radius 3px
   margin-right 10px
   margin-bottom 10px
   .title
@@ -177,7 +177,7 @@ q-page.q-pa-lg
     line-height 1.3rem
     margin-bottom 10px
   .q-card
-    border-radius 1rem
+    border-radius 3px
   .item-card
     max-width 180px
     position relative
@@ -192,13 +192,6 @@ q-page.q-pa-lg
       button
         width 30px
         height 30px
-    &:hover
-      transition transform 0.3s cubic-bezier(0.005, 1.65, 0.325, 1) !important
-      transform scale(1.1) translate(0px, 4px) !important
-      -moz-transform scale(1.1) translate(0px, 4px)
-      -webkit-transform scale(1.1) translate(0px, 4px)
-      z-index 10
-      box-shadow 0 4px 8px rgba(0,0,0,0.2), 0 5px 3px rgba(0,0,0,0.14), 0 3px 3px 3px rgba(0,0,0,0.12)
   button
     width 70%
 .type

@@ -31,7 +31,7 @@ q-card.member.cursor-pointer(@click="$router.push({ path: `/@${member.member}` }
     q-avatar.avatar(
       v-else
       size="150px"
-      color="accent"
+      color="teal"
       text-color="white"
       @click="$router.push({ path: `/@${member.member}`})"
     )
@@ -43,7 +43,7 @@ q-card.member.cursor-pointer(@click="$router.push({ path: `/@${member.member}` }
 <style lang="stylus" scoped>
 .member
   width 250px
-  border-radius 1rem
+  border-radius 3px
   margin 10px
   .avatar
     border-radius 50% !important

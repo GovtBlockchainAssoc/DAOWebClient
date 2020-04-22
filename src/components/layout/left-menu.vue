@@ -17,16 +17,66 @@ export default {
 </script>
 
 <template lang="pug">
-  q-scroll-area.fit.bg-grey-3
+  q-scroll-area.fit
+    img.q-ml-sm(
+      src="~assets/logos/logo.png"
+      style="width:150px;"
+    )
     q-list.menu(
       :bordered="false"
       dense
     )
       q-item.q-mt-md.text-black(to="/")
-        q-item-section(avatar)
-          q-icon(name="fa fa-home")
         q-item-section
-          strong Activities
+          strong MY DASHBOARD
+      q-separator.q-my-sm
+      q-item.q-mt-md.text-black
+        q-item-section
+          strong VOTE ON PROPOSALS
+      q-item(
+        to="/applicants"
+        exact
+        clickable
+        v-ripple
+      )
+        q-item-section(avatar)
+        q-item-section ENROLL MEMBERS
+      q-item(
+        to="/proposals/role"
+        exact
+        clickable
+        v-ripple
+      )
+        q-item-section(avatar)
+        q-item-section ROLES
+      q-item(
+        to="/proposals/assignment"
+        exact
+        clickable
+        v-ripple
+      )
+        q-item-section(avatar)
+        q-item-section ASSIGNMENTS
+      q-item(
+        to="/proposals/contribution"
+        exact
+        clickable
+        v-ripple
+      )
+        q-item-section(avatar)
+        q-item-section ONE TIME PAYOUTS
+      q-separator.q-my-sm
+      q-item.q-mt-md.text-black
+        q-item-section
+          strong CREATE NEW PROPOSALS
+      q-item(
+        to="/applicants"
+        exact
+        clickable
+        v-ripple
+      )
+        q-item-section(avatar)
+        q-item-section NEW MEMBERS
       q-item(
         v-if="isAuthenticated && isMember"
         clickable
@@ -34,7 +84,15 @@ export default {
         @click="displayForm('role')"
       )
         q-item-section(avatar)
-        q-item-section Create Role
+        q-item-section PROPOSE ROLE
+      q-item(
+        to="/roles"
+        exact
+        clickable
+        v-ripple
+      )
+        q-item-section(avatar)
+        q-item-section APPLY FOR ROLE
       q-item(
         v-if="isAuthenticated && isMember"
         clickable
@@ -42,23 +100,19 @@ export default {
         @click="displayForm('contribution')"
       )
         q-item-section(avatar)
-        q-item-section Create Contribution
+        q-item-section PROPOSE PAYOUT
+      q-separator.q-my-sm
+      q-item.q-mt-md.text-black
+        q-item-section
+          strong AGREEMENTS
       q-item(
-        to="/proposals/role"
+        to="/members"
         exact
         clickable
         v-ripple
       )
         q-item-section(avatar)
-        q-item-section Endorse Role
-      q-item(
-        to="/proposals/contribution"
-        exact
-        clickable
-        v-ripple
-      )
-        q-item-section(avatar)
-        q-item-section Endorse Contribution
+        q-item-section PARTICIPANTS
       q-item(
         to="/roles"
         exact
@@ -66,93 +120,7 @@ export default {
         v-ripple
       )
         q-item-section(avatar)
-        q-item-section Apply for Role
-      q-item(
-        to="/applicants"
-        exact
-        clickable
-        v-ripple
-      )
-        q-item-section(avatar)
-        q-item-section Enroll Members
-        q-item-section(side)
-          q-icon(
-            name="fas fa-lock"
-            class="text-grey-5"
-            style="font-size: 18px;"
-          )
-      q-item(
-        to="/proposals/assignment"
-        exact
-        clickable
-        v-ripple
-      )
-        q-item-section(avatar)
-        q-item-section Enroll Applicants
-        q-item-section(side)
-          q-icon(
-            name="fas fa-lock"
-            class="text-grey-5"
-            style="font-size: 18px;"
-          )
-      q-separator.q-my-sm
-      q-item.text-black(to="/members")
-        q-item-section(avatar)
-          q-icon(name="fas fa-user-friends")
-        q-item-section
-          strong Participants
-      q-item(
-        to="/applicants"
-        exact
-        clickable
-        v-ripple
-      )
-        q-item-section(avatar)
-        q-item-section New Members
-      q-separator.q-my-sm
-      q-item
-        q-item-section(avatar)
-          q-icon(name="fas fa-suitcase")
-        q-item-section
-          strong Proposals
-      q-item(
-        to="/proposals/role"
-        exact
-        clickable
-        v-ripple
-      )
-        q-item-section(avatar)
-        q-item-section Roles
-      q-item(
-        to="/proposals/assignment"
-        exact
-        clickable
-        v-ripple
-      )
-        q-item-section(avatar)
-        q-item-section Assignments
-      q-item(
-        to="/proposals/contribution"
-        exact
-        clickable
-        v-ripple
-      )
-        q-item-section(avatar)
-        q-item-section Contributions
-      q-separator.q-my-sm
-      q-item
-        q-item-section(avatar)
-          q-icon(name="fas fa-handshake")
-        q-item-section
-          strong Agreements
-      q-item(
-        to="/roles"
-        exact
-        clickable
-        v-ripple
-      )
-        q-item-section(avatar)
-        q-item-section Roles
+        q-item-section ROLES
       q-item(
         to="/assignments"
         exact
@@ -160,7 +128,7 @@ export default {
         v-ripple
       )
         q-item-section(avatar)
-        q-item-section Assignments
+        q-item-section ASSIGNMENTS
 
 </template>
 
@@ -173,7 +141,7 @@ export default {
   font-size 16px
   /deep/.q-item.q-router-link--active
     font-weight 700
-    color #E06664
+    color teal
 .menu > .q-item, .q-item--dense
   min-height 28px
 </style>

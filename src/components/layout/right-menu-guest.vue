@@ -27,34 +27,21 @@ export default {
 div(v-if="!isAuthenticated")
   dialog-login(:show.sync="showLogin")
   dialog-register(:show.sync="showRegister")
-  q-btn(
-    icon="far fa-life-ring"
-    color="white"
-    text-color="black"
-    round
-    unelevated
-    style="width:40px;height:40px;margin: 4px"
-    @click="openHelp"
-  )
-    q-tooltip Help
   q-btn.q-mr-sm(
-    icon="fas fa-sign-in-alt"
-    color="white"
-    text-color="black"
-    round
+    label="LOGIN"
+    color="teal"
+    text-color="white"
+    dense
     unelevated
     @click="showLogin = true"
-    style="width:40px;height:40px;margin: 4px"
   )
-    q-tooltip Login
   q-btn(
-    icon="fas fa-user-plus"
-    color="white"
-    text-color="black"
-    round
+    label="REGISTER"
+    color="role"
+    text-color="white"
+    dense
     unelevated
     @click="showRegister = true"
-    style="width:40px;height:40px;margin: 4px"
   )
     q-tooltip Register
 </template>
