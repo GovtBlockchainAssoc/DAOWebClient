@@ -46,7 +46,7 @@ deploy_dev:
     - aws configure set aws_access_key_id $AWS_KEY
     - aws configure set aws_secret_access_key $AWS_SECRET
     - aws s3 rm s3://dao-dev.ec20.org
-    - aws s3 sync ./dist/spa s3://dao.ec20.org
+    - aws s3 sync ./dist/spa s3://dao-dev.ec20.org
     #- aws cloudfront create-invalidation --distribution-id $AWS_DIST_ID --paths "/*"
 
 build_prod:
