@@ -22,7 +22,7 @@ jobs:
       - run: mv src/statics/app-manifest-dev.json src/statics/app-manifest.json
       - run: yarn build
         env:
-          APP_NAME: '"DAO Kit"'
+          APP_NAME: '"GBA DAO"'
           NETWORK_HOST: '"testnet.telos.caleos.io"'
           NETWORK_PROTOCOL: '"https"'
           NETWORK_PORT: '443'
@@ -43,4 +43,12 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.DEV_AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: 'us-east-1'   # optional: defaults to us-east-1
           SOURCE_DIR: 'dist'      # optional: defaults to entire repository
- 
+
+      - name: Invalidate Cloudfront and Wait for Completion
+        uses: muratiger/invalidate-cloudfront-and-wait-for-completion-action@master
+        env:
+          DISTRIBUTION_ID: ${{ secrets.DEV_DISTRIBUTION_ID }}
+          PATHS: '/*'
+          AWS_REGION: 'us-east-1'
+          AWS_ACCESS_KEY_ID: ${{ secrets.DEV_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.DEV_AWS_SECRET_ACCESS_KEY }}
