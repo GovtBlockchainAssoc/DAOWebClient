@@ -14,21 +14,28 @@ jobs:
     name: build-dev
     runs-on: ubuntu-latest
     steps:     
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
       - name: Use Node.js 
         uses: actions/setup-node@v1
         with:
           node-version: '12.x'
-      - name: build-dev-step-1
-      - uses: actions/checkout@v1
+      
+      - name: Install vuejs cli  
       - uses: borales/actions-yarn@v2.0.0
         with:
           cmd: global add @vue/cli@latest
+      
+      - name: Run yarn install
       - uses: borales/actions-yarn@v2.0.0
         with:
           cmd: install
+        
       - run: mv src/statics/chain-manifests-dev.json src/statics/chain-manifests.json
       - run: mv src/statics/app-manifest-dev.json src/statics/app-manifest.json
+        
+      - name: Run Build  
       - uses: borales/actions-yarn@v2.0.0
         with:
           cmd: build
