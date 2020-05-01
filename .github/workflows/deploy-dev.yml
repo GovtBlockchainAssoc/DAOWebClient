@@ -22,15 +22,15 @@ jobs:
         with:
           node-version: '12.x'
       
-#       - name: Install vuejs cli  
-#       - uses: borales/actions-yarn@v2.0.0
-#         with:
-#           cmd: global add @vue/cli@latest
+      - name: Install vuejs cli  
+      - uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: global add @vue/cli@latest
       
-#       - name: Run yarn install
-#       - uses: borales/actions-yarn@v2.0.0
-#         with:
-#           cmd: install
+      - name: Run yarn install
+      - uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: install
         
 #       - run: mv src/statics/chain-manifests-dev.json src/statics/chain-manifests.json
 #       - run: mv src/statics/app-manifest-dev.json src/statics/app-manifest.json
