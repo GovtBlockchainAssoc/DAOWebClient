@@ -21,35 +21,36 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '12.x'
-      
-      - name: Install vuejs cli  
-        uses: borales/actions-yarn@v2.0.0
-        with:
-          cmd: global add @vue/cli@latest
-      
-      - name: Run yarn install
-        uses: borales/actions-yarn@v2.0.0
-        with:
-          cmd: install
-        
+      - run: yarn global add @vue/cli@latest
+      - run: yarn install
       - run: mv src/statics/chain-manifests-dev.json src/statics/chain-manifests.json
       - run: mv src/statics/app-manifest-dev.json src/statics/app-manifest.json
-        
+      - run: yarn build
+      
+#       - name: Install vuejs cli  
+#         uses: borales/actions-yarn@v2.0.0
+#         with:
+#           cmd: global add @vue/cli@latest
+      
+#       - name: Run yarn install
+#         uses: borales/actions-yarn@v2.0.0
+#         with:
+#           cmd: install
 #       - name: Run Build  
-#       - uses: borales/actions-yarn@v2.0.0
+#         uses: borales/actions-yarn@v2.0.0
 #         with:
 #           cmd: build
-#         env:
-#           APP_NAME: '"DAO Kit"'
-#           NETWORK_HOST: '"testnet.telos.caleos.io"'
-#           NETWORK_PROTOCOL: '"https"'
-#           NETWORK_PORT: '443'
-#           DAO_CONTRACT: '"mygenericdao"'
-#           ACCOUNT_API_URL: '"https://opqeierg9e.execute-api.us-east-1.amazonaws.com/dev"'
-#           BLOCKCHAIN_EXPLORER: '"https://telos-test.bloks.io"'
-#           PPP_ENV: '"test"'
-#           SENTRY_DSN: '""'
-#           DOCUMENTATION: '"https://notepad.diglife.coop/6w_69K_8QLSbzNaYcDWtHw?view "'
+        env:
+          APP_NAME: '"DAO Kit"'
+          NETWORK_HOST: '"testnet.telos.caleos.io"'
+          NETWORK_PROTOCOL: '"https"'
+          NETWORK_PORT: '443'
+          DAO_CONTRACT: '"mygenericdao"'
+          ACCOUNT_API_URL: '"https://opqeierg9e.execute-api.us-east-1.amazonaws.com/dev"'
+          BLOCKCHAIN_EXPLORER: '"https://telos-test.bloks.io"'
+          PPP_ENV: '"test"'
+          SENTRY_DSN: '""'
+          DOCUMENTATION: '"https://notepad.diglife.coop/6w_69K_8QLSbzNaYcDWtHw?view "'
           
           
 #       - name: Upload the build
