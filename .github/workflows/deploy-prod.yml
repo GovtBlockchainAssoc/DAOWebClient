@@ -34,8 +34,8 @@ jobs:
           DOCUMENTATION: '"https://notepad.diglife.coop/6w_69K_8QLSbzNaYcDWtHw?view "'
 
 
-      - name: S3 Sync 
-        uses: jakejarvis/s3-sync-action@master
+      - name: S3 Sync and Invalidate Cloudfront Distribution 
+        uses: digital-scarcity/s3-sync-action@master
         with:
           args: --acl public-read --follow-symlinks
         env:
@@ -44,3 +44,4 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: 'us-east-1'   # optional: defaults to us-east-1
           SOURCE_DIR: 'dist'      # optional: defaults to entire repository
+          AWS_DISTRIBUTION_ID: ${{ secrets.PROD_DISTRIBUTION_ID }}  
