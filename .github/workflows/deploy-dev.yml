@@ -35,29 +35,29 @@ jobs:
           mv src/statics/chain-manifests-dev.json src/statics/chain-manifests.json
           mv src/statics/app-manifest-dev.json src/statics/app-manifest.json
           yarn build
-      - name: Upload the build
-        uses: actions/upload-artifact@v1
-        with:
-          name: dist
-          path: dist/*
+#       - name: Upload the build
+#         uses: actions/upload-artifact@v1
+#         with:
+#           name: dist
+#           path: dist/*
           
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download the build
-        uses: actions/download-artifact@v1
-        with:
-          name: dist
-      - name: S3 Sync 
-      - uses: actions/checkout@master
-      - uses: jakejarvis/s3-sync-action@master
-        with:
-          args: --acl public-read --follow-symlinks
-        env:
-          AWS_S3_BUCKET: ${{ secrets.DEV_AWS_S3_BUCKET }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.DEV_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.DEV_AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: 'us-east-1'   # optional: defaults to us-east-1
-          SOURCE_DIR: 'dist'      # optional: defaults to entire repository
+#   deploy:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Download the build
+#         uses: actions/download-artifact@v1
+#         with:
+#           name: dist
+#       - name: S3 Sync 
+#       - uses: actions/checkout@master
+#       - uses: jakejarvis/s3-sync-action@master
+#         with:
+#           args: --acl public-read --follow-symlinks
+#         env:
+#           AWS_S3_BUCKET: ${{ secrets.DEV_AWS_S3_BUCKET }}
+#           AWS_ACCESS_KEY_ID: ${{ secrets.DEV_AWS_ACCESS_KEY_ID }}
+#           AWS_SECRET_ACCESS_KEY: ${{ secrets.DEV_AWS_SECRET_ACCESS_KEY }}
+#           AWS_REGION: 'us-east-1'   # optional: defaults to us-east-1
+#           SOURCE_DIR: 'dist'      # optional: defaults to entire repository
          
  
