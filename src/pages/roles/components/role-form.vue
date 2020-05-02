@@ -30,7 +30,6 @@ export default {
         description: defaultDesc,
         url: null,
         salaryCommitted: null,
-        salaryDeferred: null,
         salaryUsd: null,
         salaryCapacity: null,
         startPeriod: null,
@@ -72,7 +71,6 @@ export default {
         description: defaultDesc,
         url: null,
         salaryCommitted: null,
-        salaryDeferred: null,
         salaryUsd: null,
         salaryCapacity: null,
         startPeriod: null,
@@ -160,8 +158,8 @@ export default {
   fieldset.q-mt-sm
     legend Salary
     p Please enter the minimum % commitment  and minimum deferred salary required for this role. Then enter the USD equivalent and Role capacity in the text fields below.
-    .row.q-col-gutter-sm.q-mb-md
-      .col-xs-12.col-md-6
+    .row.q-col-gutter-sm
+      .col-xs-12.col-md-4
         q-input(
           ref="salaryCommitted"
           v-model="form.salaryCommitted"
@@ -180,27 +178,7 @@ export default {
               name="fas fa-percentage"
               size="xs"
             )
-      .col-xs-12.col-md-6
-        q-input(
-          ref="salaryDeferred"
-          v-model="form.salaryDeferred"
-          type="number"
-          color="accent"
-          label="Min. deferred"
-          :rules="[rules.required, rules.positiveAmount, rules.lessOrEqualThan(100)]"
-          hint="Min %"
-          lazy-rules
-          outlined
-          dense
-          @blur="form.salaryDeferred = parseFloat(form.salaryDeferred).toFixed(0)"
-        )
-          template(v-slot:append)
-            q-icon(
-              name="fas fa-percentage"
-              size="xs"
-            )
-    .row.q-col-gutter-sm
-      .col-xs-12.col-md-6
+      .col-xs-12.col-md-4
         q-input(
           ref="salaryUsd"
           v-model="form.salaryUsd"
@@ -219,7 +197,7 @@ export default {
               name="fas fa-dollar-sign"
               size="xs"
             )
-      .col-xs-12.col-md-6
+      .col-xs-12.col-md-4
         q-input(
           ref="salaryCapacity"
           v-model="form.salaryCapacity"

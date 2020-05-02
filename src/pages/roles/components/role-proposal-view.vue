@@ -48,12 +48,8 @@ export default {
       const data = this.role.proposal.ints.find(o => o.key === 'min_time_share_x100')
       return (data && data.value && `${(data.value).toFixed(2)}%`) || ''
     },
-    rewardSalary () {
-      const data = this.role.proposal.assets.find(o => o.key === 'weekly_reward_salary')
-      return (data && data.value && parseFloat(data.value).toFixed(2)) || ''
-    },
-    voteSalary () {
-      const data = this.role.proposal.assets.find(o => o.key === 'weekly_vote_salary')
+    usdSalary () {
+      const data = this.role.proposal.assets.find(o => o.key === 'annual_usd_salary')
       return (data && data.value && parseFloat(data.value).toFixed(2)) || ''
     },
     ftCapacity () {
@@ -220,22 +216,14 @@ export default {
           readonly
         )
         .hint ROLE CAP
-      .col-3(:style="{width:'22%'}")
+      .col-3(:style="{width:'62%'}")
         q-input.bg-grey-4.text-black(
-          v-model="voteSalary"
+          v-model="usdSalary"
           outlined
           dense
           readonly
         )
-        .hint Weekly vote pow
-      .col-3(:style="{width:'40%'}")
-        q-input.bg-grey-4.text-black(
-          v-model="rewardSalary"
-          outlined
-          dense
-          readonly
-        )
-        .hint Weekly reward
+        .hint USD Salary
   fieldset.q-mt-sm
     legend Lunar cycles
     p This is the  lunar start and re-evaluation date for this role, followed by the number of lunar cycles.
@@ -274,7 +262,7 @@ export default {
       rounded
       size="25px"
       :value="percentage / 100"
-      color="light-green-6"
+      color="teal-4"
       track-color="red"
     )
       .absolute-full.flex.flex-center
@@ -284,7 +272,7 @@ export default {
       stripe
       size="25px"
       :value="quorum / 100"
-      :color="quorum < 20 ? 'red' : 'light-green-6'"
+      :color="quorum < 20 ? 'red' : 'teal-4'"
       track-color="grey-8"
     )
       .absolute-full.flex.flex-center
@@ -307,7 +295,7 @@ export default {
         v-if="votesOpened"
         :icon="userVote === 'pass' ? 'fas fa-check-square' : null"
         label="Endorse"
-        color="light-green-6"
+        color="indigo-6"
         rounded
         :loading="voting"
         @click="onCastVote('pass')"

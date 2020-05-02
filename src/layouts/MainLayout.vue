@@ -4,9 +4,6 @@ import RightMenuGuest from '~/components/layout/right-menu-guest'
 import RightMenuAuthenticated from '~/components/layout/right-menu-authenticated'
 import LeftMenu from '~/components/layout/left-menu'
 import RightSidebar from '~/components/layout/right-sidebar'
-import Trianglify from 'trianglify'
-import { dom } from 'quasar'
-const { height, width } = dom
 
 export default {
   name: 'main-layout',
@@ -38,28 +35,6 @@ export default {
     }
   },
   async mounted () {
-    let colors = 'Greys'
-    const hour = new Date().getHours()
-    if (hour >= 5 && hour < 8) {
-      colors = 'YlOrRd'
-    } else if (hour >= 8 && hour < 11) {
-      colors = 'OrRd'
-    } else if (hour >= 11 && hour < 14) {
-      colors = 'Blues'
-    } else if (hour >= 14 && hour < 17) {
-      colors = 'BuPu'
-    } else if (hour >= 17 && hour < 18) {
-      colors = 'PuRd'
-    } else if (hour >= 18 && hour < 19) {
-      colors = 'RdPu'
-    }
-    const pattern = Trianglify({
-      width: width(this.$refs.layout.$el),
-      height: height(this.$refs.layout.$el),
-      x_colors: colors,
-      y_colors: 'match_x'
-    })
-    this.background = `background: url(${pattern.png()})`
     this.initNotifications()
     await this.fetchPeriods()
   }
@@ -89,14 +64,6 @@ q-layout(
           size="18px"
           style="margin-top:8px"
         )
-        q-icon.bg-white.map-marked(
-          name="fas fa-map-marker-alt"
-          size="30px"
-          color="black"
-        )
-        .breadcrumb(v-if="$q.platform.is.desktop")
-          router-link.link(to="/").text-black GBA DAO
-          .location(v-for="breadcrumb in breadcrumbs") &nbsp;/ {{ breadcrumb.title }}
       right-menu-guest
       right-menu-authenticated
   q-drawer(
@@ -107,12 +74,6 @@ q-layout(
       @close="left = false"
     )
   right-sidebar
-  .breadcrumb(
-    v-if="!$q.platform.is.desktop"
-    style="margin-top:70px"
-  )
-    router-link.link(to="/").text-black GBA DAO
-    .location(v-for="breadcrumb in breadcrumbs") &nbsp;/ {{ breadcrumb.title }}
   q-page-container
     router-view
 </template>

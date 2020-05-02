@@ -1,7 +1,7 @@
 <script>
 import removeMd from 'remove-markdown'
 import { format } from '~/mixins/format'
-import { mapGetters, mapMutations } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: 'role-card',
@@ -9,10 +9,19 @@ export default {
   props: {
     role: { type: Object, required: true }
   },
+  data () {
+    return {
+      profile: null
+    }
+  },
   computed: {
     ...mapGetters('accounts', ['isAuthenticated']),
     title () {
       const data = this.role.strings.find(o => o.key === 'title')
+      return (data && data.value) || ''
+    },
+    owner () {
+      const data = this.role.names.find(o => o.key === 'owner')
       return (data && data.value) || ''
     },
     description () {
@@ -23,8 +32,12 @@ export default {
       return ''
     }
   },
+  async mounted () {
+    this.profile = await this.getPublicProfile(this.owner)
+  },
   methods: {
     ...mapMutations('layout', ['setShowRightSidebar', 'setRightSidebarType']),
+    ...mapActions('profiles', ['getPublicProfile']),
     showCardFullContent () {
       this.setShowRightSidebar(true)
       this.setRightSidebarType({
@@ -49,22 +62,37 @@ export default {
 <template lang="pug">
 q-card.role
   .ribbon
-    span.text-white.bg-hire NOW HIRING
+    span.text-white.bg-role NOW HIRING
+  .type
+    span ROLE
+    q-icon(name="far fa-clipboard" size="xs")
   .column.fit.flex.justify-between
     div
-      q-card-section.text-center.q-pb-sm(@click="showCardFullContent")
-        img.icon(src="~assets/icons/roles.svg")
+      q-img.owner-avatar(
+        v-if="profile && profile.publicData.avatar"
+        :src="profile.publicData.avatar"
+        @click="$router.push({ path: `/@${owner}`})"
+      )
+      q-avatar.owner-avatar(
+        v-else
+        size="90px"
+        color="teal"
+        text-color="white"
+        @click="$router.push({ path: `/@${owner}`})"
+      )
+        | {{ owner.slice(0, 2).toUpperCase() }}
+      .username {{ (profile && profile.publicData && profile.publicData.name) || owner }}
       q-card-section
-        .type(@click="showCardFullContent") Role
         .title(@click="showCardFullContent") {{ title }}
+      q-card-section.description
+        p {{ description | truncate(110) }}
     div
       q-card-actions.q-pa-lg.flex.justify-around.role-actions
         q-btn(
           :disable="!isAuthenticated"
           label="Apply"
-          color="hire"
+          color="assignment"
           @click="openApplicationForm"
-          rounded
           dense
           unelevated
         )
@@ -73,27 +101,40 @@ q-card.role
 <style lang="stylus" scoped>
 .role
   width 300px
-  border-radius 1rem
+  border-radius 3px
   margin 10px
-.role:hover
-  transition transform 0.3s cubic-bezier(0.005, 1.65, 0.325, 1) !important
-  transform scale(1.2) translate(0px, 40px) !important
-  -moz-transform scale(1.2) translate(0px, 40px)
-  -webkit-transform scale(1.2) translate(0px, 40px)
-  z-index 10
-  box-shadow 0 4px 8px rgba(0,0,0,0.2), 0 5px 3px rgba(0,0,0,0.14), 0 3px 3px 3px rgba(0,0,0,0.12)
-.type
+.owner-avatar
   cursor pointer
-  text-transform capitalize
-  text-align center
-  font-weight 800
-  font-size 28px
+  border-radius 50% !important
+  width 90px
+  margin-top 60px
+.username
+  color #616161
+  margin-top 5px
+.description
+  white-space pre-wrap
+  height 100px
+  overflow auto
+  color #616161
+.type
+  color #4D4A4A
+  text-transform uppercase
+  position absolute
+  top 5px
+  right 10px
+  font-weight 600
+  font-size 16px
+  i
+    margin-left 10px
+    margin-top -4px
 .title
   cursor pointer
   text-align center
   font-size 20px
-  color $grey-6
+  font-weight 600
+  color #605F60
   line-height 22px
+  height 36px
 .icon
   margin-top 20px
   width 100%

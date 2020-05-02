@@ -37,7 +37,7 @@ q-card.applicant
   q-card-section.text-center.q-pb-sm
     q-avatar.avatar(
       size="150px"
-      color="accent"
+      color="teal"
       text-color="white"
     )
       | {{ applicant.applicant.slice(0, 2).toUpperCase() }}
@@ -66,7 +66,7 @@ q-card.applicant
 <style lang="stylus" scoped>
 .applicant
   width 250px
-  border-radius 1rem
+  border-radius 3px
   margin 10px
   .avatar
     border-radius 50% !important
