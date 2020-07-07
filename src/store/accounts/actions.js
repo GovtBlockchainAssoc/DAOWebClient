@@ -23,6 +23,7 @@ export const loginWallet = async function ({ commit, dispatch }, { idx, returnUr
         commit('profiles/setConnected', true, { root: true })
       }
     }
+    localStorage.setItem('known-user', true)
   } catch (e) {
     error = (authenticator.getError() && authenticator.getError().message) || e.cause.message
   }
@@ -48,12 +49,16 @@ export const loginInApp = async function ({ commit, dispatch }, { account, priva
     await dispatch('checkMembership')
     await dispatch('profiles/getPublicProfile', account, { root: true })
     await dispatch('profiles/getDrafts', account, { root: true })
+    localStorage.setItem('known-user', true)
   } catch (e) {
     return 'Invalid private key'
   }
 }
 
 export const logout = async function ({ commit }) {
+  const tmp = localStorage.getItem('known-user')
+  localStorage.clear()
+  localStorage.setItem('known-user', tmp)
   if (this.$type === 'ual') {
     const wallet = localStorage.getItem('autoLogin')
     const idx = this.$ual.authenticators.findIndex(auth => auth.constructor.name === wallet)
