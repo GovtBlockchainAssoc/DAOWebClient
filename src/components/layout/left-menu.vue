@@ -8,6 +8,7 @@ export default {
   },
   methods: {
     ...mapMutations('layout', ['setShowRightSidebar', 'setRightSidebarType']),
+    ...mapMutations('proposals', ['clearData']),
     displayForm (type) {
       this.setShowRightSidebar(true)
       this.setRightSidebarType(`${type}Form`)
@@ -27,7 +28,7 @@ export default {
       :bordered="false"
       dense
     )
-      q-item.q-mt-md.text-black(to="/")
+      q-item.q-mt-md.text-black(to="/proposals")
         q-item-section(avatar)
           q-icon(
             name="fa fa-home"
@@ -51,7 +52,9 @@ export default {
           strong CREATE PROPOSALS
       .absolute-bottom
         q-separator.q-my-sm
-        q-item.text-black(to="/")
+        q-item.text-black.cursor-pointer(
+          @click="clearData"
+        )
           q-item-section(avatar)
             q-icon(
               name="fas fa-sync"

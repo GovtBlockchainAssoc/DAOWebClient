@@ -32,27 +32,6 @@ export default {
       this.setShowRightSidebar(true)
       this.setRightSidebarType(`${this.$route.params.type}Form`)
     }
-  },
-  watch: {
-    '$route.params.type': {
-      immediate: true,
-      handler () {
-        this.clearData()
-        let type = this.$route.params.type
-        type = type.charAt(0).toUpperCase() + type.slice(1)
-        if (this.$route.params.type === 'assignment') {
-          this.setBreadcrumbs([{ title: 'Enroll Applicants' }])
-        } else {
-          this.setBreadcrumbs([{ title: `Endorse ${type}s` }])
-        }
-      }
-    },
-    '$route.params.id': {
-      immediate: true,
-      handler () {
-        this.clearData()
-      }
-    }
   }
 }
 </script>
