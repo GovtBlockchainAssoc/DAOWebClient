@@ -22,12 +22,12 @@ jobs:
       - run: mv src/statics/app-manifest-dev.json src/statics/app-manifest.json
       - run: yarn build
         env:
-          APP_NAME: '"GBA DAO"'
+          APP_NAME: '"GBA Ignite DAO"'
           NETWORK_CHAIN_ID: '"1eaa0824707c8c16bd25145493bf062aecddfeb56c736f6ba6397f3195f33c9f"'
           NETWORK_HOST: '"testnet.telos.caleos.io"'
           NETWORK_PROTOCOL: '"https"'
           NETWORK_PORT: '443'
-          DAO_CONTRACT: '"mygenericdao"'
+          DAO_CONTRACT: '"dao.gba"'
           ACCOUNT_API_URL: '"https://opqeierg9e.execute-api.us-east-1.amazonaws.com/dev"'
           BLOCKCHAIN_EXPLORER: '"https://telos-test.bloks.io"'
           PPP_ENV: '"test"'
