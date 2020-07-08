@@ -10,6 +10,7 @@ export default {
   components: { RightMenuGuest, RightMenuAuthenticated, LeftMenu, RightSidebar },
   data () {
     return {
+      reveal: false,
       left: !this.$q.platform.is.mobile,
       background: 'background: url("statics/bg/main.png")'
     }
@@ -20,9 +21,9 @@ export default {
     ...mapGetters('notifications', ['successCount', 'errorCount'])
   },
   methods: {
+    ...mapActions('accounts', ['autoLogin']),
     ...mapMutations('notifications', ['initNotifications', 'unmarkRead', 'unmarkNew']),
     ...mapMutations('layout', ['setShowRightSidebar', 'setRightSidebarType']),
-    ...mapActions('periods', ['fetchPeriods']),
     toggleNotifications () {
       if (this.rightSidebarType === 'notifications') {
         this.unmarkRead()
@@ -36,7 +37,21 @@ export default {
   },
   async mounted () {
     this.initNotifications()
-    await this.fetchPeriods()
+    if (!await this.autoLogin()) {
+      if (!localStorage.getItem('known-user')) {
+        await this.$router.push({ path: '/welcome' })
+      } else if (this.$router.currentRoute.path === '/') {
+        await this.$router.push({ path: '/proposals' })
+      }
+    }
+  },
+  watch: {
+    '$route.meta.single': {
+      immediate: true,
+      handler (val) {
+        this.reveal = !val
+      }
+    }
   }
 }
 </script>
@@ -48,32 +63,39 @@ q-layout(
 )
   .bg(:style="background")
   router-link.q-ml-sm.float-left.logo(to="/" style="display:block;margin-top:8px")
-  q-header.bg-none(
-    reveal
+  transition(
+    appear
+    enter-active-class="animated fadeIn"
+    leave-active-class="animated fadeOut"
   )
-    q-toolbar
-      q-toolbar-title.q-mt-xs.flex.items-center
-        q-btn.float-left(
-          icon="fas fa-bars"
-          dense
-          round
-          unelevated
-          color="white"
-          text-color="black"
-          @click="left = !left"
-          size="18px"
-          style="margin-top:8px"
-        )
-      right-menu-guest
-      right-menu-authenticated
-  q-drawer(
-    v-model="left"
-    bordered
-  )
-    left-menu(
-      @close="left = false"
+    div(
+      v-if="reveal"
     )
-  right-sidebar
+      q-header.bg-none(
+        reveal
+      )
+        q-toolbar
+          q-toolbar-title.q-mt-xs.flex.items-center
+            q-btn.float-left(
+              icon="fas fa-bars"
+              dense
+              round
+              unelevated
+              text-color="black"
+              @click="left = !left"
+              size="14px"
+              style="margin-top:4px"
+            )
+          right-menu-guest
+          right-menu-authenticated
+      q-drawer(
+        v-model="left"
+        bordered
+      )
+        left-menu(
+          @close="left = false"
+        )
+      right-sidebar
   q-page-container
     router-view
 </template>

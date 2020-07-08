@@ -8,6 +8,7 @@ export default {
   },
   methods: {
     ...mapMutations('layout', ['setShowRightSidebar', 'setRightSidebarType']),
+    ...mapMutations('proposals', ['clearData']),
     displayForm (type) {
       this.setShowRightSidebar(true)
       this.setRightSidebarType(`${type}Form`)
@@ -23,112 +24,57 @@ export default {
       style="width:150px;"
     )
     q-list.menu(
+      style="height:90vh"
       :bordered="false"
       dense
     )
-      q-item.q-mt-md.text-black(to="/")
+      q-item.q-mt-md.text-black(to="/proposals")
+        q-item-section(avatar)
+          q-icon(
+            name="fa fa-home"
+          )
         q-item-section
           strong MY DASHBOARD
       q-separator.q-my-sm
-      q-item.q-mt-md.text-black
+      q-item.q-mt-md.text-black(to="/proposals")
+        q-item-section(avatar)
+          q-icon(
+            name="fa fa-check-circle"
+          )
         q-item-section
-          strong VOTE ON PROPOSALS
-      q-item(
-        to="/applicants"
-        exact
-        clickable
-        v-ripple
-      )
+          strong VOTE FOR PROPOSALS
+      q-item.q-mt-md.text-black(to="/proposals/new")
         q-item-section(avatar)
-        q-item-section ENROLL MEMBERS
-      q-item(
-        to="/proposals/role"
-        exact
-        clickable
-        v-ripple
-      )
-        q-item-section(avatar)
-        q-item-section ROLES
-      q-item(
-        to="/proposals/assignment"
-        exact
-        clickable
-        v-ripple
-      )
-        q-item-section(avatar)
-        q-item-section ASSIGNMENTS
-      q-item(
-        to="/proposals/contribution"
-        exact
-        clickable
-        v-ripple
-      )
-        q-item-section(avatar)
-        q-item-section ONE TIME PAYOUTS
-      q-separator.q-my-sm
-      q-item.q-mt-md.text-black
+          q-icon(
+            name="fas fa-plus"
+          )
         q-item-section
-          strong CREATE NEW PROPOSALS
-      q-item(
-        to="/applicants"
-        exact
-        clickable
-        v-ripple
-      )
-        q-item-section(avatar)
-        q-item-section NEW MEMBERS
-      q-item(
-        v-if="isAuthenticated && isMember"
-        clickable
-        v-ripple
-        @click="displayForm('role')"
-      )
-        q-item-section(avatar)
-        q-item-section PROPOSE ROLE
-      q-item(
-        to="/roles"
-        exact
-        clickable
-        v-ripple
-      )
-        q-item-section(avatar)
-        q-item-section APPLY FOR ROLE
-      q-item(
-        v-if="isAuthenticated && isMember"
-        clickable
-        v-ripple
-        @click="displayForm('contribution')"
-      )
-        q-item-section(avatar)
-        q-item-section PROPOSE PAYOUT
-      q-separator.q-my-sm
-      q-item.q-mt-md.text-black
-        q-item-section
-          strong AGREEMENTS
-      q-item(
-        to="/members"
-        exact
-        clickable
-        v-ripple
-      )
-        q-item-section(avatar)
-        q-item-section PARTICIPANTS
-      q-item(
-        to="/roles"
-        exact
-        clickable
-        v-ripple
-      )
-        q-item-section(avatar)
-        q-item-section ROLES
-      q-item(
-        to="/assignments"
-        exact
-        clickable
-        v-ripple
-      )
-        q-item-section(avatar)
-        q-item-section ASSIGNMENTS
+          strong CREATE PROPOSALS
+      .absolute-bottom
+        q-separator.q-my-sm
+        q-item.text-black.cursor-pointer(
+          @click="clearData"
+        )
+          q-item-section(avatar)
+            q-icon(
+              name="fas fa-sync"
+            )
+          q-item-section
+            strong REFRESH
+        q-item.text-black(to="/")
+          q-item-section(avatar)
+            q-icon(
+              name="fas fa-folder"
+            )
+          q-item-section
+            strong ARCHIVES
+        q-item.text-black(to="/")
+          q-item-section(avatar)
+            q-icon(
+              name="fas fa-info-circle"
+            )
+          q-item-section
+            strong DAO INFO
 
 </template>
 
@@ -138,6 +84,7 @@ export default {
 .btn-add
   margin-right 17px
 .menu
+  height 100%
   font-size 16px
   /deep/.q-item.q-router-link--active
     font-weight 700

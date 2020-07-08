@@ -82,12 +82,6 @@ div
           )
             q-item-section Profile
           q-item(
-            to="/wallet"
-            clickable
-            v-close-popup
-          )
-            q-item-section Wallet
-          q-item(
             @click="showNotifications"
             clickable
             v-close-popup

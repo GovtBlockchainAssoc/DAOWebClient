@@ -14,7 +14,7 @@ export const loginWallet = async function ({ commit, dispatch }, { idx, returnUr
       commit('setAccount', account)
       this.$ualUser = users[0]
       this.$type = 'ual'
-      localStorage.setItem('autoLogin', authenticator.constructor.name)
+      localStorage.setItem('autoLogin', authenticator.ualName)
       this.$ppp.setActiveUser(this.$ualUser)
       await dispatch('checkMembership')
       await dispatch('profiles/getPublicProfile', account, { root: true })
@@ -22,6 +22,10 @@ export const loginWallet = async function ({ commit, dispatch }, { idx, returnUr
       if (localStorage.getItem('profileApiConnected')) {
         commit('profiles/setConnected', true, { root: true })
       }
+    }
+    localStorage.setItem('known-user', true)
+    if (this.$router.currentRoute.path !== (returnUrl || '/proposals')) {
+      await this.$router.push({ path: (returnUrl || '/proposals') })
     }
   } catch (e) {
     error = (authenticator.getError() && authenticator.getError().message) || e.cause.message
@@ -48,37 +52,42 @@ export const loginInApp = async function ({ commit, dispatch }, { account, priva
     await dispatch('checkMembership')
     await dispatch('profiles/getPublicProfile', account, { root: true })
     await dispatch('profiles/getDrafts', account, { root: true })
+    localStorage.setItem('known-user', true)
   } catch (e) {
     return 'Invalid private key'
   }
 }
 
 export const logout = async function ({ commit }) {
+  const tmp = localStorage.getItem('known-user')
+  localStorage.clear()
+  localStorage.setItem('known-user', tmp)
   if (this.$type === 'ual') {
     const wallet = localStorage.getItem('autoLogin')
     const idx = this.$ual.authenticators.findIndex(auth => auth.constructor.name === wallet)
-    this.$ual.authenticators[idx].logout()
+    if (idx !== -1) {
+      this.$ual.authenticators[idx].logout()
+    }
   }
-
   commit('clearAccount')
   this.$ualUser = null
   this.$inAppUser = null
   this.$type = null
-  localStorage.clear()
   commit('profiles/setConnected', false, { root: true })
-  if (this.$route.path !== '/roles') {
-    this.$router.push({ path: '/roles' })
+  if (this.$route.path !== '/proposals') {
+    this.$router.push({ path: '/proposals' })
   }
 }
 
 export const autoLogin = async function ({ dispatch, commit }, returnUrl) {
   const wallet = localStorage.getItem('autoLogin')
-  const idx = this.$ual.authenticators.findIndex(auth => auth.constructor.name === wallet)
+  const idx = this.$ual.authenticators.findIndex(auth => auth.ualName === wallet)
   if (idx !== -1) {
     const authenticator = this.$ual.authenticators[idx]
     await authenticator.init()
-    await dispatch('loginWallet', { idx, returnUrl })
+    return !dispatch('loginWallet', { idx, returnUrl })
   }
+  return false
 }
 
 export const isAccountFree = async function (context, accountName) {

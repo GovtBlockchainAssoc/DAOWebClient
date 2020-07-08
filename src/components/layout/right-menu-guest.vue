@@ -1,7 +1,5 @@
 <script>
 import { mapGetters } from 'vuex'
-import DialogRegister from '~/components/account/dialog-register'
-import DialogLogin from '~/components/account/dialog-login'
 
 export default {
   name: 'authentication',
@@ -11,7 +9,6 @@ export default {
       showRegister: false
     }
   },
-  components: { DialogLogin, DialogRegister },
   computed: {
     ...mapGetters('accounts', ['isAuthenticated'])
   },
@@ -25,23 +22,21 @@ export default {
 
 <template lang="pug">
 div(v-if="!isAuthenticated")
-  dialog-login(:show.sync="showLogin")
-  dialog-register(:show.sync="showRegister")
   q-btn.q-mr-sm(
+    to="/login"
     label="LOGIN"
     color="teal"
     text-color="white"
     dense
     unelevated
-    @click="showLogin = true"
   )
   q-btn(
+    to="/register"
     label="REGISTER"
-    color="role"
+    color="proposal"
     text-color="white"
     dense
     unelevated
-    @click="showRegister = true"
   )
     q-tooltip Register
 </template>
