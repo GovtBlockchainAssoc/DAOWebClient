@@ -218,22 +218,23 @@ q-card.proposal
   q-card-actions.q-pb-lg.q-px-lg.flex.justify-around.proposal-actions(v-if="!readonly")
     q-btn(
       v-if="votesOpened"
-      :icon="userVote === 'pass' ? 'fas fa-check-square' : null"
-      :label="type === 'assignment' ? 'Enroll' : 'Endorse'"
-      color="indigo-6"
+      :icon="userVote === 'fail' ? 'fas fa-check-square' : null"
+      label="reject"
+      color="light-blue"
+      text-color="proposal"
       :loading="voting"
-      @click="onCastVote('pass')"
+      @click="onCastVote('fail')"
       rounded
       dense
       unelevated
     )
     q-btn(
       v-if="votesOpened"
-      :icon="userVote === 'fail' ? 'fas fa-check-square' : null"
-      label="reject"
-      color="red"
+      :icon="userVote === 'pass' ? 'fas fa-check-square' : null"
+      label="Endorse"
+      color="proposal"
       :loading="voting"
-      @click="onCastVote('fail')"
+      @click="onCastVote('pass')"
       rounded
       dense
       unelevated

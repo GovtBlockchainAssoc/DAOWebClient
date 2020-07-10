@@ -43,7 +43,9 @@ export default {
           )
         q-item-section
           strong VOTE FOR PROPOSALS
-      q-item.q-mt-md.text-black(to="/proposals/new")
+      q-item.q-mt-md.text-black.cursor-pointer(
+        @click.native="displayForm('proposal')"
+      )
         q-item-section(avatar)
           q-icon(
             name="fas fa-plus"
