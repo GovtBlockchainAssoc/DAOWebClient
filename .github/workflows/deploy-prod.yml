@@ -43,6 +43,6 @@ jobs:
           AWS_S3_BUCKET: ${{ secrets.PROD_AWS_S3_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: 'us-east-1'   # optional: defaults to us-east-1
+          # AWS_REGION: 'us-east-1'   # optional: defaults to us-east-1
           SOURCE_DIR: 'dist'      # optional: defaults to entire repository
           AWS_DISTRIBUTION_ID: ${{ secrets.PROD_DISTRIBUTION_ID }}
