@@ -54,22 +54,23 @@ export default {
           strong CREATE PROPOSALS
       .absolute-bottom
         q-separator.q-my-sm
-        q-item.text-black.cursor-pointer(
-          @click="clearData"
-        )
-          q-item-section(avatar)
-            q-icon(
-              name="fas fa-sync"
-            )
-          q-item-section
-            strong REFRESH
-        q-item.text-black(to="/")
-          q-item-section(avatar)
-            q-icon(
-              name="fas fa-folder"
-            )
-          q-item-section
-            strong ARCHIVES
+        // -
+          q-item.text-black.cursor-pointer(
+            @click="clearData"
+          )
+            q-item-section(avatar)
+              q-icon(
+                name="fas fa-sync"
+              )
+            q-item-section
+              strong REFRESH
+          q-item.text-black(to="/")
+            q-item-section(avatar)
+              q-icon(
+                name="fas fa-folder"
+              )
+            q-item-section
+              strong ARCHIVES
         q-item.text-black(to="/")
           q-item-section(avatar)
             q-icon(
