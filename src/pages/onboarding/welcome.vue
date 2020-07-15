@@ -13,7 +13,8 @@ q-page.flex.flex-center.column
   )
     div
       .title
-        strong Ignite GBA DAO
+        strong.text-deep-orange-8 Ignite&nbsp;
+        strong GBA
   .content.q-pa-md
     .content-title Welcome to GBA DAO!
     p The DHO (Decentralized Human Organization) is a framework to build your organization from the ground up in an organic and participative way and together with others. We focus on two core functions at this point, decentralized payroll and distribution accounting for organizational and bioregional contexts.

@@ -35,7 +35,8 @@ q-page.flex.flex-center.column
   )
     div
       .title
-        strong Ignite GBA DAO
+        strong.text-deep-orange-8 Ignite&nbsp;
+        strong GBA
   .content.q-pa-md.row.q-col-gutter-md
     .col-xs-12.col-md-6
       .content-title Welcome!
