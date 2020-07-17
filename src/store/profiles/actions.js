@@ -1,4 +1,5 @@
 import Turndown from 'turndown'
+import { Notify } from 'quasar'
 
 export const connectProfileApi = async function ({ commit }) {
   await this.$ppp.authApi().signIn()
@@ -191,6 +192,18 @@ export const saveDraft = async function ({ commit, state, dispatch }, data) {
     }
   }
   const profile = await this.$ppp.profileApi().getProfile('BASE_AND_APP')
+  if (!profile) {
+    Notify.create({
+      color: 'red',
+      message: 'Please create profile before submitting a proposal.',
+      position: 'bottom',
+      timeout: 10000,
+      actions: [
+        { label: 'Dismiss', color: 'white', handler: () => { /* ... */ } }
+      ]
+    })
+    return false
+  }
   await this.$ppp.profileApi().register({
     ...profile,
     publicData: {

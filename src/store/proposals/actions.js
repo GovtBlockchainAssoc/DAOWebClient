@@ -1,3 +1,5 @@
+import Turndown from 'turndown'
+
 export const fetchProposal = async function (context, { id, isHistory }) {
   const result = await this.$api.getTableRows({
     code: this.$config.contracts.dao,
@@ -14,23 +16,15 @@ export const fetchProposal = async function (context, { id, isHistory }) {
   return null
 }
 
-export const fetchData = async function ({ commit, state }, { type, roleId, isHistory }) {
+export const fetchData = async function ({ commit, state }, { isHistory }) {
   const result = await this.$api.getTableRows({
     code: this.$config.contracts.dao,
     scope: isHistory ? 'proparchive' : 'proposal',
     table: 'objects',
-    lower_bound: type,
-    upper_bound: type,
     index_position: 5, // by created
     key_type: 'i64',
     limit: 1000
   })
-  if (result.rows && roleId) {
-    result.rows = result.rows.filter(r => {
-      const rId = r.ints.find(i => i.key === 'role_id')
-      return rId && rId.value === parseInt(roleId)
-    })
-  }
   commit('addProposals', result)
 }
 
@@ -66,4 +60,32 @@ export const getUserProposals = async function (context, account) {
     more = results.more
   }
   return userProposals
+}
+export const saveProposal = async function ({ commit, rootState }, { title, description, url, rewardTokens, votingTokens }) {
+  const actions = [{
+    account: this.$config.contracts.dao,
+    name: 'create',
+    data: {
+      scope: 'proposal',
+      names: [
+        { key: 'owner', value: rootState.accounts.account },
+        { key: 'recipient', value: rootState.accounts.account }
+      ],
+      strings: [
+        { key: 'title', value: title },
+        { key: 'description', value: new Turndown().turndown(description) },
+        { key: 'url', value: url }
+      ],
+      assets: [
+        { key: 'reward_token_amount', value: `${parseFloat(rewardTokens).toFixed(2)} GBAR` },
+        { key: 'vote_token_amount', value: `${parseFloat(votingTokens).toFixed(2)} GBAV` }
+      ],
+      time_points: [],
+      ints: [],
+      floats: [],
+      trxs: []
+    }
+  }]
+
+  return this.$api.signTransaction(actions)
 }

@@ -19,39 +19,12 @@ export default {
     ...mapMutations('proposals', ['clearData']),
     ...mapMutations('layout', ['setShowRightSidebar', 'setRightSidebarType', 'setBreadcrumbs']),
     async onLoad (index, done) {
-      let type = this.$route.params.type
-      // Smartcontract difference
-      if (type === 'contribution') {
-        type = 'payout'
-      }
-      const id = this.$route.params.id
-      await this.fetchData({ type, roleId: id })
+      await this.fetchData({})
       done()
     },
     displayForm () {
       this.setShowRightSidebar(true)
       this.setRightSidebarType(`${this.$route.params.type}Form`)
-    }
-  },
-  watch: {
-    '$route.params.type': {
-      immediate: true,
-      handler () {
-        this.clearData()
-        let type = this.$route.params.type
-        type = type.charAt(0).toUpperCase() + type.slice(1)
-        if (this.$route.params.type === 'assignment') {
-          this.setBreadcrumbs([{ title: 'Enroll Applicants' }])
-        } else {
-          this.setBreadcrumbs([{ title: `Endorse ${type}s` }])
-        }
-      }
-    },
-    '$route.params.id': {
-      immediate: true,
-      handler () {
-        this.clearData()
-      }
     }
   }
 }
@@ -68,7 +41,7 @@ q-page.q-pa-lg(:style-fn="breadcrumbsTweak")
     )
       .row.text-center
         draft-proposal-card(
-          v-for="draft in drafts.filter(d => d.type === this.$route.params.type)"
+          v-for="draft in drafts.filter(d => d.type === 'proposal')"
           :key="draft.draft.id"
           :draft="draft.draft"
           :type="draft.type"

@@ -23,8 +23,7 @@ export default {
       votesOpened: false,
       canCloseProposal: false,
       voting: false,
-      userVote: null,
-      role: null
+      userVote: null
     }
   },
   computed: {
@@ -164,8 +163,8 @@ export default {
 
 <template lang="pug">
 q-card.proposal
-  .ribbon(v-if="!readonly")
-    span.text-white.bg-hire(:class="`bg-${type}`") {{ type === 'assignment' ? 'APPLYING' : 'PROPOSING'}}
+  .ribbon
+    span.text-white.bg-proposal PROPOSING
   .url(v-if="true || (url && url !== 'null')")
     q-btn(
       icon="fas fa-bookmark"
@@ -176,8 +175,8 @@ q-card.proposal
       dense
     )
   .type
-    span {{ type }}
-    q-icon(:name="typeIcon" size="xs")
+    span PROPOSAL
+    q-icon(name="far fa-clipboard" size="xs")
   q-img.owner-avatar(
     v-if="profile && profile.publicData.avatar"
     :src="profile.publicData.avatar"
@@ -219,22 +218,23 @@ q-card.proposal
   q-card-actions.q-pb-lg.q-px-lg.flex.justify-around.proposal-actions(v-if="!readonly")
     q-btn(
       v-if="votesOpened"
-      :icon="userVote === 'pass' ? 'fas fa-check-square' : null"
-      :label="type === 'assignment' ? 'Enroll' : 'Endorse'"
-      color="indigo-6"
+      :icon="userVote === 'fail' ? 'fas fa-check-square' : null"
+      label="reject"
+      color="light-blue"
+      text-color="proposal"
       :loading="voting"
-      @click="onCastVote('pass')"
+      @click="onCastVote('fail')"
       rounded
       dense
       unelevated
     )
     q-btn(
       v-if="votesOpened"
-      :icon="userVote === 'fail' ? 'fas fa-check-square' : null"
-      label="reject"
-      color="red"
+      :icon="userVote === 'pass' ? 'fas fa-check-square' : null"
+      label="Endorse"
+      color="proposal"
       :loading="voting"
-      @click="onCastVote('fail')"
+      @click="onCastVote('pass')"
       rounded
       dense
       unelevated

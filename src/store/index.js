@@ -9,7 +9,6 @@ import members from './members'
 import notifications from './notifications'
 import payments from './payments'
 import payouts from './payouts'
-import periods from './periods'
 import profiles from './profiles'
 import proposals from './proposals'
 import roles from './roles'
@@ -27,7 +26,6 @@ export default new Vuex.Store({
     notifications,
     payments,
     payouts,
-    periods,
     profiles,
     proposals,
     roles,

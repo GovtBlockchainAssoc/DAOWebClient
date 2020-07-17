@@ -42,9 +42,7 @@ export default {
   },
   methods: {
     ...mapMutations('proposals', ['clearData']),
-    ...mapActions('roles', ['saveRoleProposal']),
-    ...mapActions('payouts', ['saveContributionProposal']),
-    ...mapActions('assignments', ['saveAssignmentProposal']),
+    ...mapActions('proposals', ['saveProposal']),
     ...mapActions('profiles', ['getPublicProfile', 'deleteDraft']),
     ...mapMutations('layout', ['setShowRightSidebar', 'setRightSidebarType']),
     openUrl () {
@@ -59,7 +57,7 @@ export default {
     },
     async onSaveProposal () {
       this.submitting = true
-      await this[`save${this.type.charAt(0).toUpperCase() + this.type.slice(1)}Proposal`](this.draft)
+      await this.saveProposal(this.draft)
       await this.deleteDraft(this.draft.id)
       this.submitting = false
       this.clearData()
@@ -81,6 +79,9 @@ q-card.draft
       unelevated
       dense
     )
+  .type
+    span DRAFT
+    q-icon(name="far fa-clipboard" size="xs")
   q-img.owner-avatar(
     v-if="profile && profile.publicData.avatar"
     :src="profile.publicData.avatar"
@@ -89,13 +90,14 @@ q-card.draft
     q-tooltip {{ (profile.publicData && profile.publicData.name) || account }}
   q-avatar.owner-avatar(
     v-else
-    size="40px"
+    size="90px"
     color="teal"
     text-color="white"
     @click="$router.push({ path: `/@${account}`})"
   )
     | {{ account.slice(0, 2).toUpperCase() }}
     q-tooltip {{ (profile && profile.publicData && profile.publicData.name) || account }}
+  .username {{ (profile && profile.publicData && profile.publicData.name) || owner }}
   q-btn.card-menu(
     icon="fas fa-ellipsis-v"
     color="grey"
@@ -124,15 +126,10 @@ q-card.draft
           q-item-section(style="max-width: 20px;")
             q-icon(name="fas fa-trash-alt" size="14px")
           q-item-section Delete
-  q-card-section.text-center.q-pb-sm
-    img.icon(v-if="type === 'role'" src="~assets/icons/roles.svg")
-    img.icon(v-if="type === 'assignment'" src="~assets/icons/assignments.svg")
-    img.icon(v-if="type === 'contribution'" src="~assets/icons/past.svg")
-  q-card-section(@click="details = !details").cursor-pointer
-    .type {{ type }}
+  q-card-section
     .title {{ title }}
-  q-card-section.description(v-show="details")
-    p {{ description | truncate(150) }}
+  q-card-section.description
+    p {{ description | truncate(110) }}
   q-card-actions.q-pa-lg.flex.justify-around.draft-actions
     q-btn(
       label="Propose"
@@ -168,42 +165,48 @@ q-card.draft
   max-width 250px
 .draft
   width 300px
-  border-radius 1rem
+  border-radius 3px
   margin 10px
-.draft:hover
-  transition transform 0.3s cubic-bezier(0.005, 1.65, 0.325, 1) !important
-  transform scale(1.2) translate(0px, 40px) !important
-  -moz-transform scale(1.2) translate(0px, 40px)
-  -webkit-transform scale(1.2) translate(0px, 40px)
-  z-index 100
-  box-shadow 0 4px 8px rgba(0,0,0,0.2), 0 5px 3px rgba(0,0,0,0.14), 0 3px 3px 3px rgba(0,0,0,0.12)
-  .owner-avatar
-    z-index 110
 .card-menu
   position absolute
-  right 0
-  top 7px
+  right -10px
+  top -5px
   width 20px
   z-index 110
   /deep/.q-focus-helper
     display none !important
 .owner-avatar
   cursor pointer
-  position absolute
   border-radius 50% !important
-  right 40px
-  top 10px
-  width 40px
+  width 90px
+  margin-top 60px
+.username
+  color #616161
+  margin-top 5px
 .description
   white-space pre-wrap
-  max-height 55px
+  height 100px
   overflow auto
-.type
+  color #616161
+.title
   cursor pointer
-  text-transform capitalize
   text-align center
-  font-weight 800
-  font-size 28px
+  font-size 20px
+  font-weight 600
+  color #605F60
+  line-height 22px
+  height 36px
+.type
+  color #4D4A4A
+  text-transform uppercase
+  position absolute
+  top 5px
+  right 25px
+  font-weight 600
+  font-size 16px
+  i
+    margin-left 10px
+    margin-top -4px
 .title
   cursor pointer
   text-align center
@@ -217,7 +220,7 @@ q-card.draft
 .url
   position absolute
   top -4px
-  right 80px
+  left 70px
   z-index 12
 .draft-actions
   margin-top 55px

@@ -10,10 +10,6 @@ export const clearAccount = function (state) {
   localStorage.removeItem('autoLogin')
   state.account = null
   state.membership = false
-  state.enroller = false
-  if (this.$route.path !== '/') {
-    this.$router.push({ path: '/' })
-  }
 }
 
 export const setMembership = (state, membership) => {
