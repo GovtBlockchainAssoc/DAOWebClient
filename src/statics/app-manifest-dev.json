@@ -1,7 +1,7 @@
 {
     "account": "dao.gba",
     "domain": "https://dev.gbadao.com",
-    "appmeta": "https://dev.gbadao.com/app-metadata.json#6a56982e24969b6ba6d5c3f06d4f87ff1cf78061e2b074ee922651c709e4c5fa",
+    "appmeta": "https://dev.gbadao.com/app-metadata.json#e402d24fc5b05b79d05be169c45197e77d98ea15b617c118ddca0f004a9b4917",
     "whitelist": [
         {
             "contract": "eosio.token",

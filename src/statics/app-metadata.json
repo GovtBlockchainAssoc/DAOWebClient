@@ -4,8 +4,8 @@
     "shortname": "GBA DAO",
     "scope": "/",
     "apphome": "/",
-    "icon": "/statics/app-logo-128x128.png#bd8bc180282cc90270a6d5a93f23be912aeff147ac56045ca8e68721a8db8eba",
-    "description": "Telos onboarding app",
+    "icon": "/statics/app-logo-128x128.png#7933008c0ab6bdfd08c47a13de4bc6f38db338cb4d4c46d1db9dfd8350d05ede",
+    "description": "Decentralized Automatonomous Organization supporting the Government Blockchain Association",
     "chains": [
         {
             "chainId": "1eaa0824707c8c16bd25145493bf062aecddfeb56c736f6ba6397f3195f33c9f",
