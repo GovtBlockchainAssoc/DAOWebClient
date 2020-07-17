@@ -22,7 +22,7 @@ jobs:
       - run: mv src/statics/app-manifest-prod.json src/statics/app-manifest.json
       - run: yarn build
         env:
-          APP_NAME: '"GBA DAO"'
+          APP_NAME: '"GBA Ignite DAO"'
           NETWORK_CHAIN_ID: '"4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d11"'
           NETWORK_HOST: '"telos.caleos.io"'
           NETWORK_PROTOCOL: '"https"'
@@ -32,7 +32,7 @@ jobs:
           BLOCKCHAIN_EXPLORER: '"https://telos.bloks.io"'
           PPP_ENV: '"prod"'
           SENTRY_DSN: '"https://319dc652abba4ba59d6688a37d02eaf1@o302102.ingest.sentry.io/5220899"'
-          DOCUMENTATION: '"https://notepad.diglife.coop/6w_69K_8QLSbzNaYcDWtHw?view "'
+          DOCUMENTATION: '""'
 
 
       - name: S3 Sync and Invalidate Cloudfront Distribution
@@ -44,5 +44,5 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
           # AWS_REGION: 'us-east-1'   # optional: defaults to us-east-1
-          SOURCE_DIR: 'dist'      # optional: defaults to entire repository
+          SOURCE_DIR: 'dist/spa'      # optional: defaults to entire repository
           AWS_DISTRIBUTION_ID: ${{ secrets.PROD_DISTRIBUTION_ID }}
