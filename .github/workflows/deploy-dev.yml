@@ -28,7 +28,7 @@ jobs:
           NETWORK_PROTOCOL: '"https"'
           NETWORK_PORT: '443'
           DAO_CONTRACT: '"dao.gba"'
-          ACCOUNT_API_URL: '"https://opqeierg9e.execute-api.us-east-1.amazonaws.com/dev"'
+          ACCOUNT_API_URL: '"https://dev.api.telosapi.com"'
           ACCOUNT_API_KEY: ${{ secrets.DEV_ACCOUNT_API_KEY }} 
           BLOCKCHAIN_EXPLORER: '"https://telos-test.bloks.io"'
           PPP_ENV: '"test"'
