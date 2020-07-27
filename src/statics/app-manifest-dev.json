@@ -1,7 +1,7 @@
 {
-    "account": "dao.hypha",
-    "domain": "https://dao-dev.hypha.earth",
-    "appmeta": "https://dao-dev.hypha.earth/app-metadata.json#a19724cfce96a71ee9b076f7ec8d4d74570cf1ecfd80db60074d8a7e56e4ce4b",
+    "account": "dao.gba",
+    "domain": "https://dev.gbadao.com",
+    "appmeta": "https://dev.gbadao.com/app-metadata.json#e402d24fc5b05b79d05be169c45197e77d98ea15b617c118ddca0f004a9b4917",
     "whitelist": [
         {
             "contract": "eosio.token",
@@ -20,7 +20,7 @@
             "action": ""
         },
         {
-            "contract": "dao.hypha",
+            "contract": "dao.gba",
             "action": ""
         }
     ]

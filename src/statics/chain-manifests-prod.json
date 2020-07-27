@@ -4,9 +4,9 @@
         {
             "chainId": "4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d11",
             "manifest": {
-                "account": "dao.hypha",
-                "domain": "https://dao.hypha.earth",
-                "appmeta": "https://dao.hypha.earth/app-metadata.json#a19724cfce96a71ee9b076f7ec8d4d74570cf1ecfd80db60074d8a7e56e4ce4b",
+                "account": "dao.gba",
+                "domain": "https://gbadao.com",
+                "appmeta": "https://gbadao.com/app-metadata.json#e402d24fc5b05b79d05be169c45197e77d98ea15b617c118ddca0f004a9b4917",
                 "whitelist": [
                     {
                         "contract": "eosio.token",
@@ -21,7 +21,7 @@
                         "action": ""
                     },
                     {
-                        "contract": "dao.hypha",
+                        "contract": "dao.gba",
                         "action": ""
                     }
                 ]

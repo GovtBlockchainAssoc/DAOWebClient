@@ -1,11 +1,11 @@
 {
     "spec_version": "0.2.0",
-    "name": "Hypha Decentralized Autonomous Organization",
-    "shortname": "Hypha DAO",
+    "name": "Government Blockchain Association DAO",
+    "shortname": "GBA DAO",
     "scope": "/",
     "apphome": "/",
-    "icon": "/statics/app-logo-128x128.png#a71ba6431c13b623eccde41cd14f0f5e3ee694da7e3878407e74d8137bf89916",
-    "description": "Telos onboarding app",
+    "icon": "/statics/app-logo-128x128.png#7933008c0ab6bdfd08c47a13de4bc6f38db338cb4d4c46d1db9dfd8350d05ede",
+    "description": "Decentralized Automatonomous Organization supporting the Government Blockchain Association",
     "chains": [
         {
             "chainId": "1eaa0824707c8c16bd25145493bf062aecddfeb56c736f6ba6397f3195f33c9f",

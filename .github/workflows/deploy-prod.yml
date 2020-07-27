@@ -28,12 +28,13 @@ jobs:
           NETWORK_PROTOCOL: '"https"'
           NETWORK_PORT: '443'
           DAO_CONTRACT: '"dao.gba"'
-          ACCOUNT_API_URL: '"https://tb3nnn0qa9.execute-api.us-east-1.amazonaws.com/prod"'
+#           ACCOUNT_API_URL: '"https://tb3nnn0qa9.execute-api.us-east-1.amazonaws.com/prod"'
+          ACCOUNT_API_URL: '"https://api.telosapi.com"'
+          ACCOUNT_API_KEY: ${{ secrets.PROD_ACCOUNT_API_KEY }}
           BLOCKCHAIN_EXPLORER: '"https://telos.bloks.io"'
           PPP_ENV: '"prod"'
           SENTRY_DSN: '"https://319dc652abba4ba59d6688a37d02eaf1@o302102.ingest.sentry.io/5220899"'
           DOCUMENTATION: '""'
-
 
       - name: S3 Sync and Invalidate Cloudfront Distribution
         uses: digital-scarcity/s3-sync-action@master
